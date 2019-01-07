@@ -90,18 +90,42 @@ export class StoryState extends React.Component {
   }
 }
 
-export function withState(initialState, storyFn=null) {
+let counter = 0;
+
+function originalWithState(initialState, storyFn = null) {
   const store = new Store(initialState || {});
   const channel = addons.getChannel();
 
+  counter += 1;
   if (storyFn) {
     // Support legacy withState signature
     return () => (
-      <StoryState store={store} storyFn={storyFn} channel={channel}/>
-    );
-  } else {
-    return (storyFn) => (context) => (
-      <StoryState store={store} storyFn={storyFn} channel={channel} context={{...context, store}}/>
+      <StoryState
+        channel={channel}
+        key={counter}
+        store={store}
+        storyFn={storyFn}
+      />
     );
   }
+  return storyFn => context => (
+    <StoryState
+      channel={channel}
+      context={{ ...context, store }}
+      key={counter}
+      store={store}
+      storyFn={storyFn}
+    />
+  );
 }
+
+// https://github.com/bluealba/withState/blob/master/index.js
+export const withState = initialState => (story, context) => {
+  const state = context ? context.parameters.initialState || initialState : initialState;
+
+  return originalWithState(state)((copiedContext) => {
+    context.store = copiedContext.store;
+
+    return story(context);
+  })(context);
+};
