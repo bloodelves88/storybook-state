@@ -2,7 +2,7 @@
   "name": "@dump247/storybook-state",
   "version": "1.5.2",
   "description": "Manage component state in storybook stories.",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "typings": "index.d.ts",
   "scripts": {
     "build": "rm -rf dist/ && cd src/ && babel index.js register.js --out-dir ../dist",
