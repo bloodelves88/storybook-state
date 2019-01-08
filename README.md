@@ -5,16 +5,16 @@ component. This makes it easier to write stories for stateless components.
 
 ## Getting Started
 
-### Add @dump247/storybook
+### Add @versafleet/storybook
 
 ```sh
-npm install --save-dev @dump247/storybook-state
+npm install --save-dev @versafleet/storybook-state
 ```
 
 Register the extension in `addons.js`.
 
 ```javascript
-import '@dump247/storybook-state/register';
+import '@versafleet/storybook-state/register';
 ```
 
 ### Create a Story
@@ -24,7 +24,7 @@ Use the extension to create a story.
 ```javascript
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withState } from '@dump247/storybook-state';
+import { withState } from '@versafleet/storybook-state';
 
 storiesOf('Checkbox', module)
 .add('with check', withState({ checked: false })(({ store }) => (

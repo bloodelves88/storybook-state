@@ -1,8 +1,8 @@
 {
-  "name": "@dump247/storybook-state",
-  "version": "1.5.2",
+  "name": "@versafleet/storybook-state",
+  "version": "0.1.0",
   "description": "Manage component state in storybook stories.",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "typings": "index.d.ts",
   "scripts": {
     "build": "rm -rf dist/ && cd src/ && babel index.js register.js --out-dir ../dist",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/dump247/storybook-state.git"
+    "url": "git+ssh://git@github.com/bloodelves88/storybook-state.git"
   },
   "keywords": [
     "react",
@@ -21,9 +21,9 @@
   "author": "Cory Thomas <cthomas7577@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dump247/storybook-state/issues"
+    "url": "https://github.com/bloodelves88/storybook-state/issues"
   },
-  "homepage": "https://github.com/dump247/storybook-state#readme",
+  "homepage": "https://github.com/bloodelves88/storybook-state#readme",
   "publishConfig": {
     "access": "public"
   },

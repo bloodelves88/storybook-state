@@ -57,16 +57,16 @@ export class StoryState extends React.Component {
     const { store, channel } = this.props;
 
     store.subscribe(this.handleStateChange);
-    channel.on('dump247/state/reset', this.handleResetEvent);
-    channel.emit('dump247/state/change', { state: store.state });
+    channel.on('versafleet/state/reset', this.handleResetEvent);
+    channel.emit('versafleet/state/change', { state: store.state });
   }
 
   componentWillUnmount() {
     const { store, channel } = this.props;
 
     store.unsubscribe(this.handleStateChange);
-    channel.removeListener('dump247/state/reset', this.handleResetEvent);
-    channel.emit('dump247/state/change', { state: null });
+    channel.removeListener('versafleet/state/reset', this.handleResetEvent);
+    channel.emit('versafleet/state/change', { state: null });
   }
 
   handleResetEvent = () => {
@@ -79,7 +79,7 @@ export class StoryState extends React.Component {
     const { channel } = this.props;
 
     this.setState({ storyState });
-    channel.emit('dump247/state/change', { state: storyState });
+    channel.emit('versafleet/state/change', { state: storyState });
   };
 
   render() {

@@ -43,13 +43,13 @@ class StatePanel extends React.Component {
   componentDidMount() {
     const { channel } = this.props;
 
-    channel.on('dump247/state/change', this.handleChangeEvent);
+    channel.on('versafleet/state/change', this.handleChangeEvent);
   }
 
   componentWillUnmount() {
     const { channel } = this.props;
 
-    channel.removeListener('dump247/state/change', this.handleChangeEvent);
+    channel.removeListener('versafleet/state/change', this.handleChangeEvent);
   }
 
   handleChangeEvent = ({ state: storyState }) => {
@@ -59,7 +59,7 @@ class StatePanel extends React.Component {
   handleResetClick = () => {
     const { channel } = this.props;
 
-    channel.emit('dump247/state/reset');
+    channel.emit('versafleet/state/reset');
   };
 
   render() {
@@ -79,10 +79,10 @@ class StatePanel extends React.Component {
 }
 
 export function register() {
-  addons.register('dump247/state', (api) => {
+  addons.register('versafleet/state', (api) => {
     const channel = addons.getChannel();
 
-    addons.addPanel('dump247/state/panel', {
+    addons.addPanel('versafleet/state/panel', {
       title: 'State',
       render: () => <StatePanel channel={channel} api={api}/>,
     });
