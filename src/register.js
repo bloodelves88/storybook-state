@@ -67,16 +67,16 @@ class StatePanel extends React.Component {
     const { active } = this.props;
     const { storyState } = this.state;
 
-    if (storyState === null) {
+    if (storyState === null || !active) {
       return null;
     }
 
-    return active ? (
+    return (
       <div style={styles.panel}>
         <JsonView src={storyState} name={null} enableClipboard={false}/>
         <button style={styles.resetButton} type="button" onClick={this.handleResetClick}>Reset</button>
       </div>
-    ) : null;
+    );
   }
 }
 
@@ -86,7 +86,7 @@ export function register() {
 
     addons.addPanel('versafleet/state/panel', {
       title: 'State',
-      render: ({active}) => <StatePanel channel={channel} api={api} active={{active}} />,
+      render: ({active}) => <StatePanel channel={channel} api={api} active={active} />,
     });
   });
 }
