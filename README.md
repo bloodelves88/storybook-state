@@ -27,33 +27,15 @@ import { storiesOf } from '@storybook/react';
 import { withState } from '@versafleet/storybook-state';
 
 storiesOf('Checkbox', module)
-.add('with check', withState({ checked: false })(({ store }) => (
-  <Checkbox {...store.state}
-            label="Test Checkbox"
-            onChange={(checked) => store.set({ checked })}/>
+.addDecorator(withState({ checked: false }))
+.add('with check', ({ store }) => (
+  <Checkbox
+    checked={store.state.checked}
+    label="Test Checkbox"
+    onChange={(checked) => store.set({ checked: !checked })}
+  />
 ));
 ```
-
-## Extension
-
-### `withState(initialState)(storyFn)`
-
-`initialState` is the initial state of the component. This is an object where each key is a
-state value to set.
-
-`storyFn` is the function that produces the story component. This function receives the story context
-object `{ store: Store }` as the parameter.
-
-This extension can be composed with other storybook extension functions:
-
-```javascript
-withState({ initialState: '' })(
-    withInfo(`Some cool info`)(
-        ({ store }) => <MyComponent {...store.state}/>
-    )
-)
-```
-
 
 ## Store API
 
