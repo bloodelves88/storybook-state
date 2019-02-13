@@ -44,35 +44,35 @@ export class Store {
 export class StoryState extends React.Component {
   static propTypes = {
     channel: T.object.isRequired,
-    store: T.object.isRequired,
+    initialState: T.object.isRequired,
     storyFn: T.func.isRequired,
     context: T.object,
   };
 
+  store = new Store(this.props.initialState || {});
+
   state = {
-    storyState: this.props.store.state,
+    storyState: this.store.state,
   };
 
   componentDidMount() {
-    const { store, channel } = this.props;
+    const { channel } = this.props;
 
-    store.subscribe(this.handleStateChange);
+    this.store.subscribe(this.handleStateChange);
     channel.on('versafleet/state/reset', this.handleResetEvent);
-    channel.emit('versafleet/state/change', { state: store.state });
+    channel.emit('versafleet/state/change', { state: this.store.state });
   }
 
   componentWillUnmount() {
-    const { store, channel } = this.props;
+    const { channel } = this.props;
 
-    store.unsubscribe(this.handleStateChange);
+    this.store.unsubscribe(this.handleStateChange);
     channel.removeListener('versafleet/state/reset', this.handleResetEvent);
     channel.emit('versafleet/state/change', { state: null });
   }
 
   handleResetEvent = () => {
-    const { store } = this.props;
-
-    store.reset();
+    this.store.reset();
   };
 
   handleStateChange = (storyState) => {
@@ -83,27 +83,23 @@ export class StoryState extends React.Component {
   };
 
   render() {
-    const { store, storyFn, context } = this.props;
+    const { storyFn, context } = this.props;
+    const store = this.store;
 
-    const child = context ? storyFn(context) : storyFn(store);
+    const child = context ? storyFn({ ...context, store }) : storyFn(store);
     return React.isValidElement(child) ? child : child();
   }
 }
 
-let counter = 0;
-
 function originalWithState(initialState, storyFn = null) {
-  const store = new Store(initialState || {});
   const channel = addons.getChannel();
 
-  counter += 1;
   if (storyFn) {
     // Support legacy withState signature
     return () => (
       <StoryState
         channel={channel}
-        key={counter}
-        store={store}
+        initialState={initialState}
         storyFn={storyFn}
       />
     );
@@ -111,9 +107,8 @@ function originalWithState(initialState, storyFn = null) {
   return storyFn => context => (
     <StoryState
       channel={channel}
-      context={{ ...context, store }}
-      key={counter}
-      store={store}
+      context={context}
+      initialState={initialState}
       storyFn={storyFn}
     />
   );
